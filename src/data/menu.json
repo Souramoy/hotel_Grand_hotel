@@ -1,0 +1,89 @@
+{
+  "menu": {
+    "breakfast": [
+      {
+        "id": 1,
+        "name": "Continental Breakfast",
+        "description": "Fresh pastries, seasonal fruits, cereals, yogurt, and premium coffee",
+        "price": 360,
+        "image": "https://images.pexels.com/photos/1395964/pexels-photo-1395964.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 2,
+        "name": "American Breakfast",
+        "description": "Eggs, bacon, sausage, hash browns, toast, and fresh orange juice",
+        "price": 440,
+        "image": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 3,
+        "name": "Pancake Stack",
+        "description": "Fluffy pancakes with maple syrup, butter, and seasonal berries",
+        "price": 320,
+        "image": "https://images.pexels.com/photos/376464/pexels-photo-376464.jpeg?auto=compress&cs=tinysrgb&w=400"
+      }
+    ],
+    "lunch": [
+      {
+        "id": 4,
+        "name": "Grilled Salmon",
+        "description": "Atlantic salmon with quinoa, roasted vegetables, and lemon butter sauce",
+        "price": 640,
+        "image": "https://images.pexels.com/photos/1516415/pexels-photo-1516415.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 5,
+        "name": "Caesar Salad",
+        "description": "Crisp romaine lettuce, parmesan cheese, croutons, and house Caesar dressing",
+        "price": 360,
+        "image": "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 6,
+        "name": "Club Sandwich",
+        "description": "Triple-decker with turkey, bacon, lettuce, tomato, and avocado",
+        "price": 480,
+        "image": "https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=400"
+      }
+    ],
+    "dinner": [
+      {
+        "id": 7,
+        "name": "Ribeye Steak",
+        "description": "12oz prime ribeye with truffle mashed potatoes and seasonal vegetables",
+        "price": 960,
+        "image": "https://images.pexels.com/photos/1639565/pexels-photo-1639565.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 8,
+        "name": "Lobster Thermidor",
+        "description": "Fresh lobster in cream sauce with herbs, served with rice pilaf",
+        "price": 1000,
+        "image": "https://images.pexels.com/photos/725990/pexels-photo-725990.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 9,
+        "name": "Vegetarian Pasta",
+        "description": "House-made pasta with seasonal vegetables in garlic olive oil",
+        "price": 520,
+        "image": "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=400"
+      }
+    ],
+    "snacks": [
+      {
+        "id": 10,
+        "name": "Artisan Cheese Board",
+        "description": "Selection of local cheeses with crackers, nuts, and seasonal fruits",
+        "price": 480,
+        "image": "https://images.pexels.com/photos/1395967/pexels-photo-1395967.jpeg?auto=compress&cs=tinysrgb&w=400"
+      },
+      {
+        "id": 11,
+        "name": "Truffle Fries",
+        "description": "Hand-cut fries with truffle oil, parmesan, and herbs",
+        "price": 280,
+        "image": "https://images.pexels.com/photos/1893556/pexels-photo-1893556.jpeg?auto=compress&cs=tinysrgb&w=400"
+      }
+    ]
+  }
+}

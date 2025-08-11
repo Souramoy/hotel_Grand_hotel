@@ -1,0 +1,73 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "category": "Standard",
+      "name": "Standard Room",
+      "description": "Comfortable and cozy rooms with modern amenities, perfect for business travelers and short stays.",
+      "price": 2400,
+      "available": 10,
+      "total": 20,
+      "images": [
+        "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/1743229/pexels-photo-1743229.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+      "amenities": [
+        "Free Wi-Fi",
+        "Air Conditioning",
+        "TV",
+        "Mini Bar",
+        "Room Service"
+      ],
+      "videos": [
+        "/uploads/file-1754934643980-413511966.mp4"
+      ]
+    },
+    {
+      "id": 2,
+      "category": "Premium",
+      "name": "Premium Room",
+      "description": "Spacious rooms with elegant decor, premium bedding, and enhanced amenities for a superior experience.",
+      "price": 4000,
+      "available": 8,
+      "total": 15,
+      "images": [
+        "https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/2029667/pexels-photo-2029667.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+      "amenities": [
+        "Free Wi-Fi",
+        "Air Conditioning",
+        "Smart TV",
+        "Premium Mini Bar",
+        "24/7 Room Service",
+        "City View",
+        "Work Desk"
+      ]
+    },
+    {
+      "id": 3,
+      "category": "Luxury",
+      "name": "Luxury Suite",
+      "description": "Our finest accommodations featuring panoramic views, luxury furnishings, and personalized concierge service.",
+      "price": 7000,
+      "available": 5,
+      "total": 8,
+      "images": [
+        "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=800",
+        "https://images.pexels.com/photos/3688261/pexels-photo-3688261.jpeg?auto=compress&cs=tinysrgb&w=800"
+      ],
+      "amenities": [
+        "Free Wi-Fi",
+        "Premium Air Conditioning",
+        "Smart TV",
+        "Luxury Mini Bar",
+        "Butler Service",
+        "Ocean View",
+        "Jacuzzi",
+        "Private Balcony",
+        "Work Area"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "gallery": [
+    {
+      "id": 1,
+      "type": "image",
+      "category": "exterior",
+      "url": "https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Hotel Exterior at Sunset"
+    },
+    {
+      "id": 2,
+      "type": "image",
+      "category": "rooms",
+      "url": "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Luxury Suite"
+    },
+    {
+      "id": 3,
+      "type": "image",
+      "category": "dining",
+      "url": "https://images.pexels.com/photos/262978/pexels-photo-262978.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Main Restaurant"
+    },
+    {
+      "id": 4,
+      "type": "image",
+      "category": "amenities",
+      "url": "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Swimming Pool"
+    },
+    {
+      "id": 5,
+      "type": "image",
+      "category": "rooms",
+      "url": "https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Premium Room Interior"
+    },
+    {
+      "id": 6,
+      "type": "image",
+      "category": "dining",
+      "url": "https://images.pexels.com/photos/1395964/pexels-photo-1395964.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Breakfast Service"
+    },
+    {
+      "id": 7,
+      "type": "image",
+      "category": "rooms",
+      "url": "https://images.pexels.com/photos/3688261/pexels-photo-3688261.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "caption": "Luxury Suite view 2"
+    }
+  ]
+}

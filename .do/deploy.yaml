@@ -1,0 +1,5 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED
+regions:
+- nyc

@@ -1,0 +1,27 @@
+name: hotel-grand-backend
+services:
+- name: api
+  github:
+    branch: master
+    deploy_on_push: true
+    repo: Souramoy/hotel_Grand_hotel
+  envs:
+  - key: NODE_ENV
+    scope: RUN_TIME
+    value: production
+  - key: FRONTEND_URL
+    scope: RUN_TIME
+    value: https://hotel-grand-hotel.vercel.app
+  - key: JWT_SECRET
+    scope: RUN_TIME
+    value: helloworldgraNdhtel1234MYNAMEISSOURAMOY
+  http_port: 8080
+  instance_count: 1
+  instance_size_slug: basic-xs
+  run_command: npm start
+  source_dir: /
+  # File system configuration for persistent storage
+  filesystem:
+  - name: uploads
+    mount_path: /public/uploads
+    size_gb: 1

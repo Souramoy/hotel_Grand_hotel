@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { readData, setCorsHeaders } from './_helpers.js';
 
+// Use the environment variable JWT_SECRET
 const JWT_SECRET = process.env.JWT_SECRET || 'b44a50d44f1c3a997124555db40f74bf';
 
 export default function handler(req, res) {
@@ -18,9 +19,8 @@ export default function handler(req, res) {
     try {
       const admin = readData('admin.json');
       
-      // Debug log to help troubleshoot
-      console.log('Login attempt:', { username, providedPass: password && '***', 
-        expectedUser: admin.admin.username, expectedPassLength: admin.admin.password && admin.admin.password.length });
+      // Production safe logging (no sensitive info)
+      console.log(`Login attempt for username: ${username}`);
       
       if (username === admin.admin.username && password === admin.admin.password) {
         const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '24h' });

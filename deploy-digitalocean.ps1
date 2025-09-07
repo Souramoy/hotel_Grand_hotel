@@ -20,7 +20,7 @@ services:
     value: production
   - key: FRONTEND_URL
     scope: RUN_TIME
-    value: https://your-vercel-frontend-url.vercel.app  # Update this with your Vercel URL
+    value: https://hotel-grand-hotel.vercel.app
   - key: JWT_SECRET
     scope: RUN_TIME
     value: helloworldgraNdhtel1234MYNAMEISSOURAMOY

@@ -1,5 +1,7 @@
 {
   "version": 2,
+  "buildCommand": "npm run build:clean",
+  "outputDirectory": "dist",
   "routes": [
     {
       "src": "/api/(.*)",
@@ -8,6 +10,19 @@
     {
       "src": "/uploads/(.*)",
       "dest": "/public/uploads/$1"
+    },
+    {
+      "src": "^/assets/.*\\.js$",
+      "headers": { "content-type": "application/javascript" },
+      "continue": true
+    },
+    {
+      "src": "^/assets/.*\\.css$",
+      "headers": { "content-type": "text/css" },
+      "continue": true
+    },
+    {
+      "handle": "filesystem"
     },
     {
       "src": "/(.*)",

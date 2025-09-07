@@ -3,6 +3,7 @@ import { Users, UtensilsCrossed, ImageIcon, LogOut, Edit, Plus, Trash2 } from 'l
 import RoomForm from '../../components/admin/RoomForm';
 import MenuForm from '../../components/admin/MenuForm';
 import GalleryForm from '../../components/admin/GalleryForm';
+import api from '../../utils/api';
 
 interface Room {
   id: number;
@@ -59,14 +60,12 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [roomsRes, menuRes, galleryRes] = await Promise.all([
-          fetch('http://localhost:5000/api/rooms'),
-          fetch('http://localhost:5000/api/menu'),
-          fetch('http://localhost:5000/api/gallery'),
+        const [roomsData, menuData, galleryData] = await Promise.all([
+          api.getRooms(),
+          api.getMenu(),
+          api.getGallery(),
         ]);
-        const roomsData = await roomsRes.json();
-        const menuData = await menuRes.json();
-        const galleryData = await galleryRes.json();
+        
         setRooms(roomsData.rooms);
         setMenu(menuData.menu);
         setGallery(galleryData.gallery.map((item: any) => ({ ...item, type: item.type as 'image' | 'video' })));
@@ -82,25 +81,17 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   const updateMenu = async (newMenu: Menu) => {
     setMenu(newMenu);
     try {
-      await fetch('http://localhost:5000/api/menu', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ menu: newMenu }),
-      });
-      } catch (error) {
-        console.error('Failed to update menu:', error);
-      }
-    };
+      await api.updateMenu({ menu: newMenu });
+    } catch (error) {
+      console.error('Failed to update menu:', error);
+    }
+  };
 
     const updateGallery = async (newGallery: GalleryItem[]) => {
       const fixedGallery = newGallery.map(item => ({ ...item, type: item.type as 'image' | 'video' }));
       setGallery(fixedGallery);
       try {
-        await fetch('http://localhost:5000/api/gallery', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ gallery: fixedGallery }),
-        });
+        await api.updateGallery({ gallery: fixedGallery });
       } catch (error) {
         console.error('Failed to update gallery:', error);
       }
@@ -112,11 +103,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     );
     setRooms(updatedRooms);
     try {
-      await fetch('http://localhost:5000/api/rooms', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rooms: updatedRooms }),
-      });
+      await api.updateRooms({ rooms: updatedRooms });
     } catch (error) {
       console.error('Failed to update room:', error);
     }
@@ -128,31 +115,18 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
     
     if (isNewRoom) {
       updatedRooms = [...rooms, room];
-      try {
-        await fetch('http://localhost:5000/api/rooms', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(room),
-        });
-      } catch (error) {
-        console.error('Failed to add room:', error);
-      }
     } else {
       updatedRooms = rooms.map(r => r.id === room.id ? room : r);
-      try {
-        await fetch('http://localhost:5000/api/rooms', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ rooms: updatedRooms }),
-        });
-      } catch (error) {
-        console.error('Failed to update room:', error);
-      }
     }
     
-    setRooms(updatedRooms);
-    setShowRoomForm(false);
-    setEditingRoom(undefined);
+    try {
+      await api.updateRooms({ rooms: updatedRooms });
+      setRooms(updatedRooms);
+      setShowRoomForm(false);
+      setEditingRoom(undefined);
+    } catch (error) {
+      console.error('Failed to update room:', error);
+    }
   };
   
   const handleEditRoom = (room: Room) => {
@@ -173,15 +147,6 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       // Add new item
       // @ts-ignore
       updatedMenu[newCategory] = [...updatedMenu[newCategory], item];
-      try {
-        await fetch(`http://localhost:5000/api/menu/${newCategory}`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item),
-        });
-      } catch (error) {
-        console.error('Failed to add menu item:', error);
-      }
     } else if (oldCategory !== newCategory) {
       // Move item to new category
       // @ts-ignore
@@ -196,9 +161,13 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
       );
     }
     
-    updateMenu(updatedMenu as Menu);
-    setShowMenuForm(false);
-    setEditingMenuItem(undefined);
+    try {
+      await updateMenu(updatedMenu as Menu);
+      setShowMenuForm(false);
+      setEditingMenuItem(undefined);
+    } catch (error) {
+      console.error('Failed to update menu item:', error);
+    }
   };
   
   const handleEditMenuItem = (item: MenuItem, category: string) => {
@@ -208,27 +177,22 @@ const Dashboard: React.FC<DashboardProps> = ({ onLogout }) => {
   };
   
   const handleSaveGalleryItem = async (item: GalleryItem) => {
-    const isNewItem = !gallery.some(i => i.id === item.id);
+    const isNewItem = !gallery.some(g => g.id === item.id);
     let updatedGallery;
     
     if (isNewItem) {
       updatedGallery = [...gallery, item];
-      try {
-        await fetch('http://localhost:5000/api/gallery', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(item),
-        });
-      } catch (error) {
-        console.error('Failed to add gallery item:', error);
-      }
     } else {
-      updatedGallery = gallery.map(i => i.id === item.id ? item : i);
+      updatedGallery = gallery.map(g => g.id === item.id ? item : g);
     }
     
-    updateGallery(updatedGallery);
-    setShowGalleryForm(false);
-    setEditingGalleryItem(undefined);
+    try {
+      await updateGallery(updatedGallery);
+      setShowGalleryForm(false);
+      setEditingGalleryItem(undefined);
+    } catch (error) {
+      console.error('Failed to update gallery item:', error);
+    }
   };
   
   const handleEditGalleryItem = (item: GalleryItem) => {

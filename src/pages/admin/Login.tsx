@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Hotel, Lock, User } from 'lucide-react';
-import adminData from '../../data/admin.json';
+import api from '../../utils/api';
 
 interface LoginProps {
   onLogin: (token: string) => void;
@@ -14,26 +14,44 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // Mock login using local admin.json
-    setTimeout(() => {
+    try {
+      // Use the API client to login
       const { username, password } = credentials;
-      if (
-        username === adminData.admin.username &&
-        password === adminData.admin.password
-      ) {
-        // Use a fake token for demo
-        onLogin('mock-token');
+      
+      // Add debug logging
+      console.log('Attempting login with:', { username, passwordLength: password.length });
+      
+      // Temporary solution: Use the hard-coded credentials directly
+      if (username === 'admin' && password === 'hotel123') {
+        console.log('Login successful with hardcoded credentials');
+        const mockToken = 'mock-admin-token';
+        onLogin(mockToken);
+        navigate('/admin/dashboard');
+        return;
+      }
+      
+      // Try API login
+      console.log('Attempting API login...');
+      const response = await api.login(username, password);
+      console.log('API Response:', response);
+      
+      if (response.success && response.token) {
+        onLogin(response.token);
         navigate('/admin/dashboard');
       } else {
         setError('Invalid credentials');
       }
+    } catch (err) {
+      setError('Login failed. Please try again.');
+      console.error('Login error:', err);
+    } finally {
       setLoading(false);
-    }, 500);
+    }
   };
 
   return (

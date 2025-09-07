@@ -1,15 +1,11 @@
-import fs from 'fs';
-import path from 'path';
 import jwt from 'jsonwebtoken';
+import { readData, setCorsHeaders } from './_helpers.js';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'b44a50d44f1c3a997124555db40f74bf';
 
 export default function handler(req, res) {
   // Enable CORS
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
-  res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  setCorsHeaders(res);
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -20,9 +16,11 @@ export default function handler(req, res) {
     const { username, password } = req.body;
     
     try {
-      const filePath = path.join(process.cwd(), 'src/data/admin.json');
-      const data = fs.readFileSync(filePath, 'utf8');
-      const admin = JSON.parse(data);
+      const admin = readData('admin.json');
+      
+      // Debug log to help troubleshoot
+      console.log('Login attempt:', { username, providedPass: password && '***', 
+        expectedUser: admin.admin.username, expectedPassLength: admin.admin.password && admin.admin.password.length });
       
       if (username === admin.admin.username && password === admin.admin.password) {
         const token = jwt.sign({ username }, JWT_SECRET, { expiresIn: '24h' });

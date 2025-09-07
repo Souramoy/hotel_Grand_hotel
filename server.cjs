@@ -130,6 +130,29 @@ app.delete('/api/gallery/:id', (req, res) => {
   res.json({ success: true });
 });
 
+// Authentication endpoint for admin login
+app.post('/api/auth', (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const adminData = readData('admin.json');
+    
+    if (username === adminData.admin.username && password === adminData.admin.password) {
+      // Simple JWT-like token for development
+      const token = Buffer.from(JSON.stringify({ 
+        username, 
+        exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
+      })).toString('base64');
+      
+      res.json({ success: true, token });
+    } else {
+      res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (error) {
+    console.error('Authentication error:', error);
+    res.status(500).json({ error: 'Authentication failed' });
+  }
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Backend server running on port ${PORT}`);

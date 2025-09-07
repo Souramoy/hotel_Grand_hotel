@@ -8,7 +8,51 @@ A modern, responsive hotel website built with React, TypeScript, Tailwind CSS, a
 - **Admin Dashboard**: Manage rooms, menu items, and gallery content
 - **Modern UI**: Built with Tailwind CSS for a sleek, modern interface
 - **Interactive Components**: Interactive room booking, gallery view, and contact form
-- **Backend API**: Express.js backend for data management
+
+## Deployment Guide for Vercel
+
+This application is configured to work properly on Vercel with both frontend and backend functionality. Follow these steps for deployment:
+
+### 1. Push Your Code to GitHub
+
+First, make sure your code is pushed to a GitHub repository:
+
+```bash
+git add .
+git commit -m "Prepare for Vercel deployment"
+git push
+```
+
+### 2. Deploy to Vercel
+
+1. Sign up or log in at [vercel.com](https://vercel.com)
+2. Click "New Project"
+3. Import your GitHub repository
+4. Configure the project:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
+5. Add the following environment variable:
+   - `JWT_SECRET` - Set a secure random string for JWT token generation
+6. Click "Deploy"
+
+### 3. Check Your Deployment
+
+- Once deployed, Vercel will provide you with a domain where your application is hosted
+- Test all functionality, including:
+  - Viewing rooms, menu, and gallery
+  - Admin login and dashboard
+  - File uploads
+  - Data updates
+
+### How the Deployment Works
+
+This application is configured to work on Vercel through:
+
+1. **Serverless Functions**: The `/api` directory contains serverless functions that handle backend functionality
+2. **File System Access**: Data is stored in JSON files in the `/src/data` directory
+3. **File Uploads**: Files are uploaded to the `/public/uploads` directory
+4. **Routing Configuration**: The `vercel.json` file configures routing to correctly serve API endpoints and the SPA frontend
 
 ## Pages
 

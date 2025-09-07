@@ -6,7 +6,7 @@
       "name": "Standard Room",
       "description": "Comfortable and cozy rooms with modern amenities, perfect for business travelers and short stays.",
       "price": 2400,
-      "available": 10,
+      "available": 4,
       "total": 20,
       "images": [
         "https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=800",
@@ -19,9 +19,7 @@
         "Mini Bar",
         "Room Service"
       ],
-      "videos": [
-        "/uploads/file-1754934643980-413511966.mp4"
-      ]
+      "videos": []
     },
     {
       "id": 2,

@@ -1,6 +1,7 @@
 # Grand Hotel Website
 
 A modern, responsive hotel website built with React, TypeScript, Tailwind CSS, and Vite. The website showcases the hotel's rooms, amenities, restaurant menu, gallery, and provides a contact form for inquiries.
+<img width="1357" height="596" alt="image" src="https://github.com/user-attachments/assets/8263a754-9852-4410-bf5d-e1ebdc3cd935" />
 
 ## Features
 

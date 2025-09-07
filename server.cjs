@@ -4,9 +4,36 @@ const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
+const dotenv = require('dotenv');
+
+// Load environment variables
+dotenv.config();
+
+// Ensure required directories exist
+// Define paths for important directories
+const DATA_DIR = path.join(__dirname, 'src', 'data');
+const UPLOADS_DIR = path.join(__dirname, 'public', 'uploads');
+
+// Ensure required directories exist
+if (!fs.existsSync(DATA_DIR)) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  console.log('Created data directory:', DATA_DIR);
+}
+
+if (!fs.existsSync(UPLOADS_DIR)) {
+  fs.mkdirSync(UPLOADS_DIR, { recursive: true });
+  console.log('Created uploads directory:', UPLOADS_DIR);
+}
 
 const app = express();
-app.use(cors());
+
+// Configure CORS for production
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Configure multer for file uploads
@@ -31,15 +58,26 @@ const upload = multer({ storage: storage });
 // Serve static files from public directory
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
-const dataDir = path.join(__dirname, 'src', 'data');
+// Use the already defined DATA_DIR constant
 
 // Helper to read JSON file
 function readData(file) {
-  return JSON.parse(fs.readFileSync(path.join(dataDir, file), 'utf8'));
+  const filePath = path.join(DATA_DIR, file);
+  // Create empty file if it doesn't exist
+  if (!fs.existsSync(filePath)) {
+    console.log(`Creating empty data file: ${filePath}`);
+    const emptyData = file.includes('rooms') ? { rooms: [] } :
+                      file.includes('menu') ? { menu: { breakfast: [], lunch: [], dinner: [] } } :
+                      file.includes('gallery') ? { gallery: [] } :
+                      file.includes('admin') ? { admin: { username: "admin", password: "password123" } } : {};
+    fs.writeFileSync(filePath, JSON.stringify(emptyData, null, 2));
+  }
+  return JSON.parse(fs.readFileSync(filePath, 'utf8'));
 }
+
 // Helper to write JSON file
 function writeData(file, data) {
-  fs.writeFileSync(path.join(dataDir, file), JSON.stringify(data, null, 2));
+  fs.writeFileSync(path.join(DATA_DIR, file), JSON.stringify(data, null, 2));
 }
 
 // GET endpoints
@@ -137,7 +175,10 @@ app.post('/api/auth', (req, res) => {
     const adminData = readData('admin.json');
     
     if (username === adminData.admin.username && password === adminData.admin.password) {
-      // Simple JWT-like token for development
+      // Use JWT_SECRET from environment variables or fallback to a default (not recommended for production)
+      const jwtSecret = process.env.JWT_SECRET || 'helloworldgraNdhtel1234MYNAMEISSOURAMOY';
+      
+      // Simple JWT-like token for authentication
       const token = Buffer.from(JSON.stringify({ 
         username, 
         exp: Date.now() + (24 * 60 * 60 * 1000) // 24 hours
@@ -154,6 +195,7 @@ app.post('/api/auth', (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend server running on port ${PORT}`);
+  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

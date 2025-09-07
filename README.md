@@ -10,21 +10,29 @@ A modern, responsive hotel website built with React, TypeScript, Tailwind CSS, a
 - **Modern UI**: Built with Tailwind CSS for a sleek, modern interface
 - **Interactive Components**: Interactive room booking, gallery view, and contact form
 
-## Deployment Guide for Vercel
+## Deployment Guide for Separate Frontend & Backend
 
-This application is configured to work properly on Vercel with both frontend and backend functionality. Follow these steps for deployment:
+This application is designed to work with a separated architecture where the frontend and backend are deployed to different platforms.
 
-### 1. Push Your Code to GitHub
+### Frontend Deployment on Vercel
 
-First, make sure your code is pushed to a GitHub repository:
+#### 1. Update Environment Variables
+
+Before deploying, update the `.env.production` file:
+
+```
+VITE_API_URL=https://your-backend-url.com  # Replace with actual backend URL once deployed
+```
+
+#### 2. Push Your Code to GitHub
 
 ```bash
 git add .
-git commit -m "Prepare for Vercel deployment"
+git commit -m "Prepare for deployment"
 git push
 ```
 
-### 2. Deploy to Vercel
+#### 3. Deploy Frontend to Vercel
 
 1. Sign up or log in at [vercel.com](https://vercel.com)
 2. Click "New Project"
@@ -33,27 +41,162 @@ git push
    - Build Command: `npm run build`
    - Output Directory: `dist`
    - Install Command: `npm install`
-5. Add the following environment variable:
-   - `JWT_SECRET` - Set a secure random string for JWT token generation
+5. Add the environment variable:
+   - `VITE_API_URL` - Your backend server URL
 6. Click "Deploy"
 
-### 3. Check Your Deployment
+### Backend Deployment Options
 
-- Once deployed, Vercel will provide you with a domain where your application is hosted
-- Test all functionality, including:
-  - Viewing rooms, menu, and gallery
-  - Admin login and dashboard
-  - File uploads
-  - Data updates
+You have several options for deploying your backend. Choose the one that best fits your needs:
 
-### How the Deployment Works
+#### Option A: Railway
+#### Option B: Render
+#### Option C: DigitalOcean App Platform (Recommended)
 
-This application is configured to work on Vercel through:
+#### 1. Prepare Your Backend for Deployment
 
-1. **Serverless Functions**: The `/api` directory contains serverless functions that handle backend functionality
-2. **File System Access**: Data is stored in JSON files in the `/src/data` directory
-3. **File Uploads**: Files are uploaded to the `/public/uploads` directory
-4. **Routing Configuration**: The `vercel.json` file configures routing to correctly serve API endpoints and the SPA frontend
+1. For backend-only deployment, you can use the provided `server-package.json`:
+   ```bash
+   # Rename the server package.json
+   cp server-package.json package.json
+   
+   # Make sure data and uploads directories exist
+   mkdir -p src/data public/uploads
+   
+   # Copy your data files
+   cp -r src/data/* src/data/
+   ```
+
+2. Create a Procfile for platforms like Render or Heroku:
+   ```
+   web: node server.cjs
+   ```
+
+3. For Railway or similar, configure the start command as:
+   ```
+   node server.cjs
+   ```
+
+4. Set the following environment variables on your hosting platform:
+   - `PORT`: Port for the server (often assigned automatically by the platform)
+   - `FRONTEND_URL`: URL of your frontend (the Vercel URL)
+   - `NODE_ENV`: Set to "production"
+   - `JWT_SECRET`: A secure random string for JWT token generation
+
+#### 2. Deploy the Backend
+
+1. Choose a backend hosting service:
+   - [Render](https://render.com): Free tier available, supports Node.js
+   - [Railway](https://railway.app): Developer-friendly with good free tier
+   - [Heroku](https://heroku.com): Reliable but requires credit card for free tier
+   - [Fly.io](https://fly.io): Good performance with global distribution
+
+2. Follow platform-specific instructions:
+
+   **For Render:**
+   - Sign up or log in at [render.com](https://render.com)
+   - Create a new Web Service
+   - Connect your GitHub repository
+   - Set Build Command: `npm install`
+   - Set Start Command: `npm start`
+   - Set Environment Variables (see above)
+   - Deploy
+
+   **For Railway:**
+   - Sign up or log in at [railway.app](https://railway.app)
+   - Install the Railway CLI:
+     ```bash
+     npm i -g @railway/cli
+     ```
+   - Login to Railway:
+     ```bash
+     railway login
+     ```
+   - Run the deployment script (Windows):
+     ```bash
+     .\deploy-railway.ps1
+     ```
+   - Or for Mac/Linux:
+     ```bash
+     chmod +x deploy-railway.sh
+     ./deploy-railway.sh
+     ```
+   - Alternatively, manually create a new project:
+     - `railway init`
+     - Set environment variables:
+       ```bash
+       railway variables set NODE_ENV=production
+       railway variables set FRONTEND_URL=https://your-frontend-url.vercel.app
+       railway variables set JWT_SECRET=your-secret-key
+       ```
+     - Deploy:
+       ```bash
+       railway up
+       ```
+
+   **For DigitalOcean App Platform:**
+   - Sign up or log in at [DigitalOcean](https://digitalocean.com)
+   - Install the DigitalOcean CLI:
+     ```bash
+     # For Windows (PowerShell)
+     scoop install doctl
+     # Or
+     choco install doctl
+     
+     # For Mac
+     brew install doctl
+     ```
+   - Run the deployment script (Windows):
+     ```bash
+     .\deploy-digitalocean.ps1
+     ```
+   - Or for Mac/Linux:
+     ```bash
+     chmod +x deploy-digitalocean.sh
+     ./deploy-digitalocean.sh
+     ```
+   - Authenticate with your DigitalOcean account:
+     ```bash
+     doctl auth init
+     ```
+   - Create and deploy the app:
+     ```bash
+     doctl apps create --spec .do/app.yaml
+     ```
+   - Alternatively, use the [DigitalOcean App Platform Console](https://cloud.digitalocean.com/apps):
+     1. Click "Create App"
+     2. Select your GitHub repository
+     3. Configure as a Web Service with Node.js
+     4. Set the environment variables:
+        - NODE_ENV=production
+        - FRONTEND_URL=https://your-vercel-frontend-url.vercel.app
+        - JWT_SECRET=your-secure-secret
+     5. Enable persistent disk for `/public/uploads` (1GB minimum)
+     6. Deploy the app
+
+3. Once deployed, note the URL of your backend service
+
+#### 3. Update Frontend Configuration
+
+1. Go back to your Vercel dashboard
+2. Update the environment variable:
+   - `VITE_API_URL`: Set to the URL of your deployed backend
+3. Trigger a redeploy of the frontend
+
+### Running Both Services Locally for Development
+
+1. Start the backend server:
+   ```bash
+   npm run server
+   ```
+
+2. In a separate terminal, start the frontend:
+   ```bash
+   npm run dev
+   ```
+
+3. The frontend will be available at `http://localhost:5173`
+4. The backend will be available at `http://localhost:5000`
 
 ## Pages
 

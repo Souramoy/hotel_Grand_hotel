@@ -27,7 +27,7 @@
       "name": "Premium Room",
       "description": "Spacious rooms with elegant decor, premium bedding, and enhanced amenities for a superior experience.",
       "price": 4000,
-      "available": 8,
+      "available": 4,
       "total": 15,
       "images": [
         "https://images.pexels.com/photos/1454806/pexels-photo-1454806.jpeg?auto=compress&cs=tinysrgb&w=800",

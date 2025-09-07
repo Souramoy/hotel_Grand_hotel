@@ -46,8 +46,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
     formData.append('file', file);
 
     try {
-      // Use relative URL to work both locally and on Vercel
-      const response = await fetch('/api/upload', {
+      // Use API URL from environment variables
+      const apiUrl = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${apiUrl}/api/upload`, {
         method: 'POST',
         body: formData,
       });
